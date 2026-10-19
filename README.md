@@ -1,3 +1,5 @@
+![TNB E-İmza — macOS KEP ve tarayıcı imzalama](assets/social-preview.jpg)
+
 # TNB Teknoloji E-imza — macOS Apple Silicon kurulumu
 
 > **Kısa yanıt:** Türkiye Noterler Birliği KEP girişinde (`kep.hs02.kep.tr`) kullanılan TNB Teknoloji Elektronik İmza uygulamasını Mac'inizde çalıştırmak mı istiyorsunuz? Üretici yalnızca Windows kurulumu dağıtıyor; bu proje aynı uygulamayı **MacBook, MacBook Pro, MacBook Air, Mac mini ve iMac**'de (Apple Silicon / M serisi / ARM tabanlı işlemci) native `.app` + Chrome **native messaging host** olarak çalıştırır. Gömülü arm64 Java 11 sayesinde Rosetta veya ayrı Java gerekmez. **Gayriresmî topluluk portudur; TNB veya üretici tarafından onaylanmamıştır.**
