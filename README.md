@@ -101,6 +101,8 @@ var olan** yollar denenir; liste ve arama dizinleri için bkz.
 `patch/MacPkcs11Modules.java`. Listeyi geçici olarak değiştirmek için
 `-Dtnb.pkcs11.modules=/yol/surucu.dylib`.
 
+> **macOS 28 / Rosetta uyarısı:** Sistemde eski **Intel** AKİS paketi kuruluysa macOS, `/Applications/Akia.app` için "bu uygulama gelecek macOS sürümünde açılmayacak" uyarısı gösterir (Rosetta desteği macOS 28'de kaldırılıyor). TÜBİTAK'ın **Arm (Apple Silicon)** paketini kurduysanız yeni sürüm `Akia ARM.app` (arm64) olarak gelir; eski `/Applications/Akia.app`'i Finder'da Çöp'e sürükleyip kaldırın. Bu uyarı native messaging akışını etkilemez — kart erişimi yukarıdaki `libakisp11.dylib` üzerinden yürür.
+
 ## Teknik özet
 
 Windows sürümü aslında saf bir Java uygulaması (`TNBTeknolojiImza.jar`) — `.exe`
