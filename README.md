@@ -1,8 +1,19 @@
-# TNB Teknoloji Elektronik İmza — macOS Apple Silicon (M1/M2/M3/M4) Kurulumu (arm64)
+# TNB Teknoloji E-imza — macOS Apple Silicon kurulumu
 
-TNB Teknoloji Elektronik İmza uygulamasını **MacBook, MacBook Pro, MacBook Air, Mac mini ve iMac**'de çalıştırın. Apple Silicon (M serisi, ARM tabanlı işlemci) için native `.app` + Chrome **native messaging host**; gömülü arm64 Java 11 — Rosetta gerekmez. Üretici yalnızca Windows kurulumu dağıtıyor; bu port, aynı uygulamayı Mac'e taşır.
+> **Kısa yanıt:** Türkiye Noterler Birliği KEP girişinde (`kep.hs02.kep.tr`) kullanılan TNB Teknoloji Elektronik İmza uygulamasını Mac'inizde çalıştırmak mı istiyorsunuz? Üretici yalnızca Windows kurulumu dağıtıyor; bu proje aynı uygulamayı **MacBook, MacBook Pro, MacBook Air, Mac mini ve iMac**'de (Apple Silicon / M serisi / ARM tabanlı işlemci) native `.app` + Chrome **native messaging host** olarak çalıştırır. Gömülü arm64 Java 11 sayesinde Rosetta veya ayrı Java gerekmez. **Gayriresmî topluluk portudur; TNB veya üretici tarafından onaylanmamıştır.**
+>
+> **Chrome eklentisi zorunlu:** [TNB Teknoloji Elektronik İmza (Chrome Web Store)](https://chromewebstore.google.com/detail/ppgjmopocehhllbjblnpdajkkkfghpan) — kurduktan sonra Chrome'u tamamen kapatıp açın.
 
-**Kimler için:** Türkiye Noterler Birliği (TNB) KEP'i (`kep.hs02.kep.tr`) kullanan **noterler ve noter çalışanları** başta olmak üzere, TNB e-imza ile giriş yapan tüm kullanıcılar.
+## İlk kez kuranlar için
+
+1. **Chrome eklentisi:** Yukarıdaki bağlantıdan kurun; ardından Chrome'u tamamen kapatıp yeniden açın.
+2. **Uygulama:** [Releases](../../releases) → `TnbEimza-arm64-*.dmg` (en hızlı) veya `brew install --cask adeministratorr/tap/tnb-eimza`.
+3. **Kart ve sürücü:** e-imza kartı + kart okuyucu + **arm64 AKİS sürücüsü**: [akiskart.bilgem.tubitak.gov.tr/destek](https://akiskart.bilgem.tubitak.gov.tr/tr/destek/) → "Mac OS Arm (Apple Silicon)". Kontrol: `lipo -archs /usr/local/lib/libakisp11.dylib` → `arm64`.
+4. **Başarılı kurulum:** `kep.hs02.kep.tr` girişinde sertifika seçimi → PIN → imzalama akışı tamamlanır.
+5. **Sık hata:** Eklenti "uygulama kurulu değil" diyorsa Chrome'u tamamen kapatıp açın; sertifika listesi boşsa arm64 sürücüyü kontrol edin. Gatekeeper uyarısı → notarize DMG'de beklenmez; kaynaktan derlemede sağ tık → **Aç**.
+6. **Önemli sınır:** Gerçek **AKİS** kartıyla uçtan uca doğrulandı; diğer token'lar (SafeNet, SafeSign, IDPrime, OpenSC) sürücü listesinde olmasına rağmen donanım olmadığı için test edilmedi. `decrypt` akışı da gerçek şifreli iletiyle denenmedi. Intel Mac desteklenmez. PIN'inizi hiçbir komuta/issue'ya yazmayın.
+
+> **Güvenlik notu:** Bu port resmî/üretici onaylı değildir. DMG sürümü Developer ID ile imzalı ve Apple notarizasyonundan geçmiştir; sürüm notlarında `sha256` bulunur. Kaynaktan derleme ad-hoc imzalıdır; `kur.sh` betiğini çalıştırmadan önce inceleyin.
 
 ## Kimler için?
 - **Noterler ve noterlik çalışanları:** kep.hs02.kep.tr üzerinden e-imza ile giriş yapanlar (noter işlemleri ve resmî yazışmalar).
@@ -11,9 +22,9 @@ TNB Teknoloji Elektronik İmza uygulamasını **MacBook, MacBook Pro, MacBook Ai
 
 ## "Mac'te e-imza çalışmıyor" arayanlar için kısa cevaplar
 - **Neden Mac'te çalışmıyor?** Üretici yalnızca Windows kurulumu veriyor; uygulamanın macOS sürümü yok. Bu port, uygulamayı arm64 Mac'te çalıştırır ve tarayıcıya kaydeder.
-- **MacBook / MacBook Pro / MacBook Air / iMac / Mac mini'de çalışır mı?** Evet — Apple Silicon (M1/M2/M3/M4). Intel desteklenmez.
-- **Çift tıklayarak mı açılır?** Hayır — bu bir tarayıcı (native messaging) aracıdır; imzalama akışı **Chrome'dan** başlatılır (aşağıda).
-- **İmza için ek olarak ne gerekir?** e-imza kartı + kart okuyucu + **arm64 AKİS sürücüsü** (aşağıda).
+- **MacBook / MacBook Pro / MacBook Air / iMac / Mac mini'de çalışır mı?** Evet — Apple Silicon (M1/M2/M3/M4 ve sonrası). Intel desteklenmez.
+- **Çift tıklayarak mı açılır?** Hayır — bu bir tarayıcı (native messaging) aracıdır; imzalama akışı **Chrome'dan** başlatılır.
+- **İmza için ek olarak ne gerekir?** Chrome eklentisi + e-imza kartı + kart okuyucu + **arm64 AKİS sürücüsü** (yukarıda).
 
 ## Neden Mac'te çalışmıyordu? Nasıl çözdük?
 
@@ -24,27 +35,26 @@ TNB Teknoloji Elektronik İmza uygulamasını **MacBook, MacBook Pro, MacBook Ai
 - **Doğrulama:** Gerçek AKİS kartı ve PIN ile `kep.hs02.kep.tr` girişi (sertifika seçimi → PIN → imzalama) uçtan uca test edildi.
 
 ## Kurulum (3 yol)
-1. **Tek satır (kaynaktan derler):**
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/adeministratorr/tnb-eimza-mac-arm64/main/kur.sh | bash
-```
-
+1. **Hazır DMG (en hızlı):** [Releases](../../releases) → `TnbEimza-arm64-*.dmg`.
 2. **Homebrew cask (hazır DMG, derleme beklemez):**
 
 ```bash
 brew install --cask adeministratorr/tap/tnb-eimza
 ```
 
-3. **Hazır DMG:** [Releases](../../releases) → `TnbEimza-arm64-*.dmg`
+3. **Tek satır (kaynaktan derler; betiği önce inceleyin):**
 
-> Chrome eklentisi de gerekir: [TNB Teknoloji Elektronik İmza (Chrome Web Store)](https://chromewebstore.google.com/detail/ppgjmopocehhllbjblnpdajkkkfghpan) — kurduktan sonra Chrome'u tamamen kapatıp açın.
+```bash
+curl -fsSL https://raw.githubusercontent.com/adeministratorr/tnb-eimza-mac-arm64/main/kur.sh | bash
+```
+
+> Chrome eklentisi ayrıca gereklidir: [TNB Teknoloji Elektronik İmza (Chrome Web Store)](https://chromewebstore.google.com/detail/ppgjmopocehhllbjblnpdajkkkfghpan) — kurduktan sonra Chrome'u tamamen kapatıp açın.
 
 Diğer araçlar (aynı tap): [e-Devlet E-İmza](https://github.com/adeministratorr/edevlet-eimza-mac-arm64) · [PTT KEP Webmail](https://github.com/adeministratorr/pttkep-eimza-mac-arm64) · [PTT UETS / e-Tebligat](https://github.com/adeministratorr/uets-eimza-mac-arm64) · [UHAP İmzalama](https://github.com/adeministratorr/uhap-eimza-mac-arm64) · [UDF QuickLook](https://github.com/adeministratorr/udf-quicklook-extension) · [UYAP Doküman Editörü](https://github.com/adeministratorr/ude-mac-arm64-1)
 
 ---
 
-# TNB Teknoloji Elektronik İmza — macOS (Apple Silicon) Portu
+## TNB Teknoloji Elektronik İmza — macOS (Apple Silicon) Portu
 
 TNB KEP (`kep.hs02.kep.tr`) girişinde kullanılan **TNB Teknoloji Elektronik İmza**
 uygulamasının Apple Silicon Mac'ler için **resmi olmayan, topluluk** portu.
@@ -194,7 +204,7 @@ make uninstall  # kaydı ve uygulamayı kaldır
 - **Sertifika listesi boş:** Sürücü arm64 mi? `lipo -archs /usr/local/lib/libakisp11.dylib`.
   Sonra `make run` ile hangi modüllerin denendiğine bakın.
 - **Kart okunmuyor:** Kart takılı ve okuyucu bağlı mı? `pkcs11-tool --module /usr/local/lib/libakisp11.dylib -L`
-- **Gatekeeper "açılamıyor":** Uygulamaya sağ tık → **Aç** (ad-hoc imzalı).
+- **Gatekeeper "açılamıyor":** DMG/cask ile kurulan notarize sürümde beklenmez; kaynaktan derlenen `.app` ad-hoc imzalıdır → sağ tık → **Aç**.
 - **"Yalnızca Apple Silicon (arm64)" diyor ama Mac'im M-serisi:** Terminal
   Rosetta (x86_64) modunda açılmıştır (`uname -m` → `x86_64`). `kur.sh` bunu
   artık kendisi algılayıp arm64'e geçiyor; doğrudan `make` çalıştırıyorsanız
@@ -215,7 +225,7 @@ make uninstall  # kaydı ve uygulamayı kaldır
 ## Bilinen sınırlar
 
 - Yalnızca **arm64** (Apple Silicon); Intel Mac desteklenmez.
-- **Notarize edilmemiştir** (ad-hoc imza).
+- DMG release'leri Developer ID ile imzalı ve **notarize** edilmiştir; kaynaktan derleme (`make` / `kur.sh`) ad-hoc imzalıdır.
 - Kart tipi: **AKİS** (doğrulanan). Diğer token'lar (SafeNet, SafeSign,
   IDPrime, OpenSC) sürücü listesine eklendi ama donanım olmadığı için test
   edilmedi.
