@@ -27,7 +27,7 @@ TNB Teknoloji Elektronik İmza uygulamasını **MacBook, MacBook Pro, MacBook Ai
 1. **Tek satır (kaynaktan derler):**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/saidsurucu/tnb-eimza-mac-arm64/main/kur.sh | bash
+curl -fsSL https://raw.githubusercontent.com/adeministratorr/tnb-eimza-mac-arm64/main/kur.sh | bash
 ```
 
 2. **Homebrew cask (hazır DMG, derleme beklemez):**
@@ -59,7 +59,7 @@ girişi uçtan uca çalıştığı doğrulanmıştır.**
 ## Kurulum (tek komut)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/saidsurucu/tnb-eimza-mac-arm64/main/kur.sh | bash
+curl -fsSL https://raw.githubusercontent.com/adeministratorr/tnb-eimza-mac-arm64/main/kur.sh | bash
 ```
 
 Betik sırayla: Xcode Command Line Tools'u (gerekirse) kurar, depoyu
@@ -176,7 +176,7 @@ nitelikli sertifika doğru çerçevelenmiş olarak dönmelidir.
 ## Elle derleme
 
 ```bash
-git clone https://github.com/saidsurucu/tnb-eimza-mac-arm64.git
+git clone https://github.com/adeministratorr/tnb-eimza-mac-arm64.git
 cd tnb-eimza-mac-arm64
 make app        # build/TNBTeknolojiImza.app üret
 make install    # /Applications'a kur + tarayıcılara kaydet
