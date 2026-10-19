@@ -1,3 +1,49 @@
+# TNB Teknoloji Elektronik İmza — macOS Apple Silicon (M1/M2/M3/M4) Kurulumu (arm64)
+
+TNB Teknoloji Elektronik İmza uygulamasını **MacBook, MacBook Pro, MacBook Air, Mac mini ve iMac**'de çalıştırın. Apple Silicon (M serisi, ARM tabanlı işlemci) için native `.app` + Chrome **native messaging host**; gömülü arm64 Java 11 — Rosetta gerekmez. Üretici yalnızca Windows kurulumu dağıtıyor; bu port, aynı uygulamayı Mac'e taşır.
+
+**Kimler için:** Türkiye Noterler Birliği (TNB) KEP'i (`kep.hs02.kep.tr`) kullanan **noterler ve noter çalışanları** başta olmak üzere, TNB e-imza ile giriş yapan tüm kullanıcılar.
+
+## Kimler için?
+- **Noterler ve noterlik çalışanları:** kep.hs02.kep.tr üzerinden e-imza ile giriş yapanlar (noter işlemleri ve resmî yazışmalar).
+- **Hukuk ve kurum profesyonelleri:** TNB imza gerektiren akışlarda Chrome eklentisini kullananlar.
+- **Şirket yetkilileri ve mali müşavirler:** KEP/e-tebligat yazışmalarını Mac üzerinden yürütenler.
+
+## "Mac'te e-imza çalışmıyor" arayanlar için kısa cevaplar
+- **Neden Mac'te çalışmıyor?** Üretici yalnızca Windows kurulumu veriyor; uygulamanın macOS sürümü yok. Bu port, uygulamayı arm64 Mac'te çalıştırır ve tarayıcıya kaydeder.
+- **MacBook / MacBook Pro / MacBook Air / iMac / Mac mini'de çalışır mı?** Evet — Apple Silicon (M1/M2/M3/M4). Intel desteklenmez.
+- **Çift tıklayarak mı açılır?** Hayır — bu bir tarayıcı (native messaging) aracıdır; imzalama akışı **Chrome'dan** başlatılır (aşağıda).
+- **İmza için ek olarak ne gerekir?** e-imza kartı + kart okuyucu + **arm64 AKİS sürücüsü** (aşağıda).
+
+## Neden Mac'te çalışmıyordu? Nasıl çözdük?
+
+- **Sorun:** TNB Teknoloji Elektronik İmza yalnızca Windows kurulumu (`TNBTeknolojiImza.exe`) olarak dağıtılıyordu; Mac sürümü yoktu.
+- **Neden 1:** Jar içindeki IAIK PKCS#11 native kütüphanesinde `arm64` dilimi yoktu (yalnızca ppc/i386/x86_64) → kart erişimi `UnsatisfiedLinkError` ile düşüyordu.
+- **Neden 2:** Uygulamanın sürücü listesinde Türkiye'de yaygın **AKİS** sürücüsü yoktu; kart takılı olsa bile sertifika listesi boş geliyordu.
+- **Çözüm:** IAIK native katmanı yerine aynı API'yi **SunPKCS11** üzerine oturtan `sunpkcs11-wrapper` kullanıldı; eksik üyeler (örn. `Mechanism.RSA_PKCS`) shim ile eklendi; AKİS dahil genişletilmiş sürücü listesi tanımlandı ve `Module.finalize` sorunu giderildi.
+- **Doğrulama:** Gerçek AKİS kartı ve PIN ile `kep.hs02.kep.tr` girişi (sertifika seçimi → PIN → imzalama) uçtan uca test edildi.
+
+## Kurulum (3 yol)
+1. **Tek satır (kaynaktan derler):**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/saidsurucu/tnb-eimza-mac-arm64/main/kur.sh | bash
+```
+
+2. **Homebrew cask (hazır DMG, derleme beklemez):**
+
+```bash
+brew install --cask adeministratorr/tap/tnb-eimza
+```
+
+3. **Hazır DMG:** [Releases](../../releases) → `TnbEimza-arm64-*.dmg`
+
+> Chrome eklentisi de gerekir: [TNB Teknoloji Elektronik İmza (Chrome Web Store)](https://chromewebstore.google.com/detail/ppgjmopocehhllbjblnpdajkkkfghpan) — kurduktan sonra Chrome'u tamamen kapatıp açın.
+
+Diğer araçlar (aynı tap): [e-Devlet E-İmza](https://github.com/adeministratorr/edevlet-eimza-mac-arm64) · [PTT KEP Webmail](https://github.com/adeministratorr/pttkep-eimza-mac-arm64) · [PTT UETS / e-Tebligat](https://github.com/adeministratorr/uets-eimza-mac-arm64) · [UHAP İmzalama](https://github.com/adeministratorr/uhap-eimza-mac-arm64) · [UDF QuickLook](https://github.com/adeministratorr/udf-quicklook-extension) · [UYAP Doküman Editörü](https://github.com/adeministratorr/ude-mac-arm64-1)
+
+---
+
 # TNB Teknoloji Elektronik İmza — macOS (Apple Silicon) Portu
 
 TNB KEP (`kep.hs02.kep.tr`) girişinde kullanılan **TNB Teknoloji Elektronik İmza**
