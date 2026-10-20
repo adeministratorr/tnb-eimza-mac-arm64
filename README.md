@@ -1,10 +1,12 @@
-![TNB E-İmza — macOS KEP ve tarayıcı imzalama](assets/social-preview.jpg)
+![Mac’te TNB KEP E-İmza — Chrome Eklentisi ve Uygulama Bulunamadı Hatası](assets/social-preview.jpg)
 
-# TNB Teknoloji E-imza — macOS Apple Silicon kurulumu
+# Mac’te TNB KEP E-İmza — Chrome Eklentisi ve Uygulama Bulunamadı Hatası
 
 > **Kısa yanıt:** Türkiye Noterler Birliği KEP girişinde (`kep.hs02.kep.tr`) kullanılan TNB Teknoloji Elektronik İmza uygulamasını Mac'inizde çalıştırmak mı istiyorsunuz? Üretici yalnızca Windows kurulumu dağıtıyor; bu proje aynı uygulamayı **MacBook, MacBook Pro, MacBook Air, Mac mini ve iMac**'de (Apple Silicon / M serisi / ARM tabanlı işlemci) native `.app` + Chrome **native messaging host** olarak çalıştırır. Gömülü arm64 Java 11 sayesinde Rosetta veya ayrı Java gerekmez. **Gayriresmî topluluk portudur; TNB veya üretici tarafından onaylanmamıştır.**
 >
 > **Chrome eklentisi zorunlu:** [TNB Teknoloji Elektronik İmza (Chrome Web Store)](https://chromewebstore.google.com/detail/ppgjmopocehhllbjblnpdajkkkfghpan) — kurduktan sonra Chrome'u tamamen kapatıp açın.
+
+**Ayrıntılı Türkçe anlatım:** [Mac’te e-imza ve UYAP kurulumu, ilk kullanım ve hata çözümleri](https://ademyuce.tr/macos-eimza-uyap/).
 
 ## İlk kez kuranlar için
 
@@ -27,6 +29,8 @@
 - **MacBook / MacBook Pro / MacBook Air / iMac / Mac mini'de çalışır mı?** Evet — Apple Silicon (M1/M2/M3/M4 ve sonrası). Intel desteklenmez.
 - **Çift tıklayarak mı açılır?** Hayır — bu bir tarayıcı (native messaging) aracıdır; imzalama akışı **Chrome'dan** başlatılır.
 - **İmza için ek olarak ne gerekir?** Chrome eklentisi + e-imza kartı + kart okuyucu + **arm64 AKİS sürücüsü** (yukarıda).
+- **TNB imza uygulaması Chrome tarafından bulunmuyor, neden?** Tarayıcı eklentisi kurulu olsa bile yerel uygulama veya native messaging kaydı eksik olabilir. Kurulumu ve kaydı kontrol edip Chrome’u tamamen yeniden başlatın.
+- **TNB KEP ile PTT KEP aynı mı?** Hayır. Ayrı hizmetlerin imza istemcilerini ve işlem kodlarını birbirinin yerine kullanmayın.
 
 ## Neden Mac'te çalışmıyordu? Nasıl çözdük?
 
